@@ -14,6 +14,9 @@ import com.phidgets.AdvancedServoPhidget;
 import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
 
+/**
+* A class to start an MQTT broker and recieve messages that in turn control the sensors/actuators.
+*/
 
 public class MQTT {
 
@@ -21,7 +24,6 @@ public class MQTT {
 		 
 		 UserUtils uu = new UserUtils();
 		 
-
 		  String username = null;
 		try {
 			username = uu.getUser();
@@ -35,16 +37,11 @@ public class MQTT {
 		    String content      = "Hello there from CloudMQTT";
 		    int qos             = 1;
 		//    String broker       = "tcp://192.168.0.30:1883";
-		 String broker       = "tcp://m21.cloudmqtt.com:17781";
-		    //MQTT client id to use for the device. "" will generate a client id automatically
+			String broker       = "tcp://m21.cloudmqtt.com:17781";
 		    String clientId     = "WatchaiHub";
 
-		    
-		    
-		    Lock lock = new Lock();
-		    
+		    Lock lock = new Lock();		    
 		    AdvancedServoPhidget servo = new AdvancedServoPhidget();
-		    
 		    lock.attachListener(servo);
 		    
 		    Lights li = new Lights();
@@ -72,9 +69,9 @@ public class MQTT {
 			String entertain = "entertain";
 			String emergency = "emergency";
 			
-			
-         	  
-			
+			/**
+			* Starting the MQTT client, passing in the broker, clientID & persistence
+			*/
 		    
 	         MemoryPersistence persistence = new MemoryPersistence();
 	         try {
@@ -83,97 +80,74 @@ public class MQTT {
 	             public void messageArrived(String topic, MqttMessage msg)
 	                       throws Exception {
 	            	 			
-	            	/**
-	            	 * If topic contains music: 
-	            	 */
-	            	 
-	            	 
-	            	 
-	            	//Light.main(args); 
 	            	 
 	            	 String message = new String(msg.getPayload());
-	            	 
-	            	 
 			
 	            	if(topic.contains(msc) && message.contains("genius")){
-	            		 music.playSound("genius");
-	            	 }if(topic.contains(msc) && message.contains("sleep")){
-	            		 music.playSound("sleep");
-	            	 }if(topic.contains(msc) && message.contains("party")){
-	            		 music.playSound("party");
-	            	 }if(topic.contains(msc) && message.contains("rhyme")){
-	            		 music.playSound("rhyme");
-	            	 }if(topic.contains(msc) && message.contains("stop")){
-	            		 music.stopMusic();
-	            	 }if(topic.contains("Blind") && message.equals(locked)){
-                    	  System.out.println(locked);
-                    	  lock.lock(servo);
-                    	  li.turnOffAll(ifk);
-                     }if(topic.contains("Blind") && message.equals(unlocked)){
-                    	  System.out.println(unlocked);
-                    	  lock.unlock(servo);
-                    	  li.turnOnAll(ifk);
-                     }if(topic.contains("Bedroom") && message.equals(locked)){
-			li.turnOnWhite(ifk);
-			}if(topic.contains("Bedroom") && message.equals(unlocked)){
-			li.turnOffWhite(ifk);
-			}if(topic.contains("Bathroom") && message.equals(locked)){
-			li.turnOnGreen(ifk);
-			}if(topic.contains("Bathroom") && message.equals(unlocked)){
-			li.turnOffGreen(ifk);
-			}
-			if(topic.contains("Study") || topic.contains("Dining") && message.equals(locked)){
-			li.turnOnRed(ifk);
-			}if(topic.contains("Study") && message.equals(unlocked)){
-			li.turnOffRed(ifk);
-			}
-			if(topic.contains(lightMon) &&  message.contains(on)){
-                    	 lightSensor.turnOn(ifk);
-                     }if(topic.contains(lightMon) &&  message.contains(off)){
-                    	 lightSensor.turnOff(ifk);
-                     }if(topic.contains(vibration) && message.contains(on)){
-                    	 vibSensor.turnOn(ifk);
-                     }if(topic.contains(vibration) && message.contains(off)){
-                    	 vibSensor.turnOff(ifk);
-                    	// mqttClient.publish(topic, new MqttMessage(off.getBytes()));
-                     }if(topic.contains(tempMon) && message.contains(on)){
-                    	 tempSensor.getTemp(ifk);       	
-                     }  			
-
-
-			if(topic.contains(recipe) && message.contains(sleep)){
-			
-                    	 music.playSound(sleep);
-                    	 li.soothingLights(ifk);
-                    	 lock.lock(servo);
-                     }if(topic.contains(recipe) && message.contains(wake)){
-			
-                    	 music.playSound("genius");
-                    	 lock.unlock(servo);
-                     }if(topic.contains(recipe) && message.contains(sooth)){
-			
-                    	 music.playSound("genius");
-                    	 li.soothingLights(ifk);
-                     }if(topic.contains(recipe) && message.contains(entertain)){
-			
-                    	 music.playSound("rhyme");
-                    	 li.partyLights(ifk);
-                     }if(topic.contains(recipe) && message.contains(emergency)){
-			
-                    	 li.emergencyLight(ifk);
-              
-                     }if(topic.contains(recipe) && message.contains("stop")){
-					music.stopMusic();
-				}	
+	            		music.playSound("genius");
+	            	}if(topic.contains(msc) && message.contains("sleep")){
+	            		music.playSound("sleep");
+	            	}if(topic.contains(msc) && message.contains("party")){
+	            		music.playSound("party");
+	            	}if(topic.contains(msc) && message.contains("rhyme")){
+	            		music.playSound("rhyme");
+	            	}if(topic.contains(msc) && message.contains("stop")){
+						music.stopMusic();
+	            	}if(topic.contains("Blind") && message.equals(locked)){
+						System.out.println(locked);
+						lock.lock(servo);
+						li.turnOffAll(ifk);
+                    }if(topic.contains("Blind") && message.equals(unlocked)){
+						System.out.println(unlocked);
+						lock.unlock(servo);
+						li.turnOnAll(ifk);
+                    }if(topic.contains("Bedroom") && message.equals(locked)){
+						li.turnOnWhite(ifk);
+					}if(topic.contains("Bedroom") && message.equals(unlocked)){
+						li.turnOffWhite(ifk);
+					}if(topic.contains("Bathroom") && message.equals(locked)){
+						li.turnOnGreen(ifk);
+					}if(topic.contains("Bathroom") && message.equals(unlocked)){
+						li.turnOffGreen(ifk);
+					}if(topic.contains("Study") || topic.contains("Dining") && message.equals(locked)){
+						li.turnOnRed(ifk);
+					}if(topic.contains("Study") && message.equals(unlocked)){
+						li.turnOffRed(ifk);
+					}if(topic.contains(lightMon) &&  message.contains(on)){
+						lightSensor.turnOn(ifk);
+                    }if(topic.contains(lightMon) &&  message.contains(off)){
+						lightSensor.turnOff(ifk);
+                    }if(topic.contains(vibration) && message.contains(on)){
+						vibSensor.turnOn(ifk);
+                    }if(topic.contains(vibration) && message.contains(off)){
+						vibSensor.turnOff(ifk);
+						mqttClient.publish(topic, new MqttMessage(off.getBytes()));
+                    }if(topic.contains(tempMon) && message.contains(on)){
+						tempSensor.getTemp(ifk);       	
+                    }if(topic.contains(recipe) && message.contains(sleep)){
+				        music.playSound(sleep);
+						li.soothingLights();
+						lock.lock(servo);
+	                }if(topic.contains(recipe) && message.contains(wake)){
+						music.playSound("genius");
+						lock.unlock(servo);
+					}if(topic.contains(recipe) && message.contains(sooth)){
+						music.playSound("genius");
+	                   	li.soothingLights();
+                    }if(topic.contains(recipe) && message.contains(entertain)){
+						music.playSound("rhyme");
+	                   	li.partyLights();
+                    }if(topic.contains(recipe) && message.contains(emergency)){
+						li.emergencyLight(ifk);  
+                    }if(topic.contains(recipe) && message.contains("stop")){
+						music.stopMusic();
+						li.turnOffAll();
+			      }	
 				            	
-	            	 System.out.println(topic + " this is the msg: " + message);
-	            	 
-	            	 
-	                           System.out.println("Recived:" + topic);
-	                           System.out.println("Recived:" + new String(msg.getPayload()));
-	                           
-	                          // String mssg = new String(msg.getPayload());
-	                           
+	            	 System.out.println("Topic: " + topic + ", message: " + message);
+	                 System.out.println("Topic recieved:" + topic);
+	                 System.out.println("Message recieved:" + new String(msg.getPayload()));
+	                        
 	                           }
 
 	             public void deliveryComplete(IMqttDeliveryToken arg0) {

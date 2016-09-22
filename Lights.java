@@ -100,8 +100,8 @@ public class Lights {
   	 * @throws PhidgetException
   	 * @throws InterruptedException 
   	 */
-  	public void soothingLights(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
-  		
+  	public void soothingLights() throws PhidgetException, InterruptedException{
+  		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
   		attachListener(ifk);
   		
   		for(int i = 0; i < 30; i++){
@@ -124,8 +124,8 @@ public class Lights {
   	 * @throws InterruptedException
   	 */
   	
-	public void partyLights(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
-  		
+	public void partyLights() throws PhidgetException, InterruptedException{
+  		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
   		attachListener(ifk);
   		turnOffAll(ifk);
   		for(int i = 0; i < 5; i++){
