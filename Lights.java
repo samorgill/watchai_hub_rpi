@@ -11,99 +11,103 @@ import com.phidgets.*;
 import com.phidgets.event.*;
 
 public class Lights {
-	
+
 	InterfaceKitPhidget led;
-	
+
 	/**
+	 * @author Samuel Orgill 15118305
+	 * NW5 Smartwatch Control of Environment
+	 * September 2016
+	 *
 	 * A method for turning on the lights automatically if the light
 	 * level falls below a set level.
 	 * Light Sensor & LED's
 	 * @param args
 	 * @throws PhidgetException
 	 */
-	
+
 	 public void turnOn(String[] args) throws PhidgetException {
-    	
+
 	 InterfaceKitPhidget led = new InterfaceKitPhidget();
 	 System.out.println(Phidget.getLibraryVersion());
 	 attachListener(led);
-	 
+
 	 //Set the change listener to monitor the light levels
 	 led.addInputChangeListener(new InputChangeListener(){
 
 		@Override
 		public void inputChanged(InputChangeEvent arg0) {
-			
+
 		}
-		 
+
 	 });
 		led.addSensorChangeListener(new SensorChangeListener(){
 
 			@Override
 			public void sensorChanged(SensorChangeEvent arg0) {
-				
+
 				int sensVal = arg0.getValue();
-				
+
 				System.out.println("Arg " + arg0.getValue());
-				
+
 				//If the light levels fall below 30, the lights turn on
 				if(sensVal < 30){
 					try {
 						turnOnWhite(led);
 						turnOnRed(led);
 						turnOnGreen(led);
-						
+
 					} catch (PhidgetException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} 
+					}
 				}else if(sensVal > 50){
 					try {
-						
+
 						turnOffWhite(led);
 						turnOffRed(led);
 						turnOffGreen(led);
 						String str = "Light off";
-					      
+
 					} catch (PhidgetException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
-			
+
 		});
-		
+
 		 }
-	 
+
 	 /**
 	  * A method for flashing the red emergency light
 	  * @throws PhidgetException
 	  * @throws InterruptedException
 	  */
-  
+
   	public void emergencyLight(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
-  		
+
   		attachListener(ifk);
-  		
+
   		for(int i = 0; i < 30; i++){
   		turnOnRed(ifk);
   		Thread.sleep(500);
   		turnOffRed(ifk);
   		Thread.sleep(500);
   		}
-  		
+
   	}
-  	
+
   	/**
   	 * A soothing mix of the lights
   	 * @throws PhidgetException
-  	 * @throws InterruptedException 
+  	 * @throws InterruptedException
   	 */
   	public void soothingLights() throws PhidgetException, InterruptedException{
   		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
   		attachListener(ifk);
-  		
+
   		for(int i = 0; i < 30; i++){
   	  		turnOnRed(ifk);
   	  		Thread.sleep(1000);
@@ -115,15 +119,15 @@ public class Lights {
 	  		turnOnRed(ifk);
 	  		Thread.sleep(2000);
   	  		}
-  		
+
   	}
-  	
+
   	/**
   	 * A method for party lights
   	 * @throws PhidgetException
   	 * @throws InterruptedException
   	 */
-  	
+
 	public void partyLights() throws PhidgetException, InterruptedException{
   		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
   		attachListener(ifk);
@@ -134,7 +138,7 @@ public class Lights {
   	  		Thread.sleep(100);
   	  		turnOffGreen(ifk);
   	  		Thread.sleep(100);
-  	  		turnOffRed(ifk);	
+  	  		turnOffRed(ifk);
   	  		Thread.sleep(200);
   	  		turnOffGreen(ifk);
 	  		turnOnRed(ifk);
@@ -168,12 +172,12 @@ public class Lights {
 	  		Thread.sleep(200);
 
   	  		}
-  		
+
   		turnOffAll(ifk);
   	}
-  	
+
   	/**
-  	 * A method for setting the attachment listener 
+  	 * A method for setting the attachment listener
   	 * @param led
   	 * @throws PhidgetException
   	 */
@@ -183,7 +187,7 @@ public class Lights {
   				System.out.println("attachment of " + ae);
   			}
   		});
-  		
+
   		ifk.addDetachListener(new DetachListener() {
   			public void detached(DetachEvent ae) {
   				System.out.println("detachment of " + ae);
@@ -194,36 +198,36 @@ public class Lights {
   				System.out.println("error event for " + ee);
   			}
   		});
-  		
+
   		ifk.openAny();
-		ifk.waitForAttachment(); 
-	 	
+		ifk.waitForAttachment();
+
 
   	}
-  	
+
   	/**
   	 * A method to turn off the lights
-  	 * @throws PhidgetException 
+  	 * @throws PhidgetException
   	 */
-  	
+
   	public void turnOffAll(InterfaceKitPhidget ifk) throws PhidgetException{
   		turnOffWhite(ifk);
   		turnOffRed(ifk);
   		turnOffGreen(ifk);
   	}
-  
+
   	/**
   	 * A method for turning on all lights
   	 * @param led
   	 * @throws PhidgetException
   	 */
-  	
+
   	public void turnOnAll(InterfaceKitPhidget ifk) throws PhidgetException{
   		turnOnWhite(ifk);
   		turnOnRed(ifk);
   		turnOnGreen(ifk);
   	}
-  	
+
   	/**
   	 * A method for turning on the white light
   	 * @param led
@@ -232,7 +236,7 @@ public class Lights {
   	public void turnOnWhite(InterfaceKitPhidget ifk) throws PhidgetException{
   		ifk.setOutputState(0, true);
   	}
-  	
+
   	/**
   	 * Turn off the red light
   	 * @param led
@@ -241,7 +245,7 @@ public class Lights {
   	public void turnOffWhite(InterfaceKitPhidget ifk) throws PhidgetException{
   		ifk.setOutputState(0, false);
   	}
-  	
+
   	/**
   	 * Turn on the red light
   	 * @param led
@@ -250,7 +254,7 @@ public class Lights {
   	public void turnOnRed(InterfaceKitPhidget ifk) throws PhidgetException{
   		ifk.setOutputState(1, true);
   	}
-  	
+
   	/**
   	 * Turn off the red light
   	 * @param led
@@ -259,7 +263,7 @@ public class Lights {
   	public void turnOffRed(InterfaceKitPhidget ifk) throws PhidgetException{
   		ifk.setOutputState(1, false);
   	}
-  	
+
   	/**
   	 * Turn on the green light
   	 * @param led
@@ -268,7 +272,7 @@ public class Lights {
   	public void turnOnGreen(InterfaceKitPhidget ifk) throws PhidgetException{
   		ifk.setOutputState(2, true);
   	}
-  	
+
   	/**
   	 * Turn off the green light
   	 * @param led
@@ -280,10 +284,10 @@ public class Lights {
 
   	/**
   	 * Turn off all lights overloaded method
-  	 * @throws PhidgetException 
+  	 * @throws PhidgetException
   	 */
 	public void turnOffAll() throws PhidgetException {
-		
-		
+
+
 	}
 }

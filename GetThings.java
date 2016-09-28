@@ -11,29 +11,33 @@ import javax.swing.plaf.synth.SynthSpinnerUI;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+* @author Samuel Orgill 15118305
+* NW5 Smartwatch Control of Environment
+* September 2016
+
+* Get all things from the database
+*/
 
 public class GetThings {
 
 	public static String serverURL =
             "http://3-dot-projectbabywatch.appspot.com/";
-	
-	
+
+
 	 public void getDB() throws IOException{
-		  
+
 
 		  String serverURL =
 		            "http://3-dot-projectbabywatch.appspot.com/";
-			
+
 			UserUtils uu = new UserUtils();
-			
+
 			String usrName = uu.getUser();
-		  
+
 		  Store st = new Store();
-		   
-			//usrName = "SamHome";
-				
 			System.out.println("Gettings things...");
-			
+
 			JSONObject jObject = new JSONObject();
 
 	      String fullURLStr = serverURL + "GetAllThings?user3=" + usrName;
@@ -45,8 +49,6 @@ public class GetThings {
 	      try {
 	          for (int i = 0; i < jArray.length(); i++) {
 	              jObject = jArray.getJSONObject(i);
-	              
-	              
 
 	                  thing = jObject.get("thing").toString();
 	                  state = jObject.get("state").toString();
@@ -55,20 +57,20 @@ public class GetThings {
 	                  zone = jObject.get("zone").toString();
 	                  room = jObject.get("room").toString();
 
-	                  
+
 	                  topic = usrName+"/"+type+"/"+zone+"/"+room+"/"+thing;
-	                 
+
 	                 Thing thin = new Thing(thing, state, serial, type, zone, room, topic);
-	                 
+
 	                  st.add(thin);
-	            
+
 	          }
 	      } catch (Exception e){
 	          e.printStackTrace();
 	      }
-		  
+
 	  }
-	
+
 		public JSONArray getFromServer(String urlStr){
 	        URL url;
 	        HttpURLConnection conn;
@@ -128,6 +130,6 @@ public class GetThings {
 
 	        return jArr;
 	    }
-    
-	
+
+
 }

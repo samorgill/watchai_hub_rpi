@@ -16,28 +16,32 @@ import com.phidgets.event.SensorChangeListener;
 import com.phidgets.event.ServoPositionChangeEvent;
 import com.phidgets.event.ServoPositionChangeListener;
 
+/**
+*@author Samuel Orgill 15118305
+*NW5 Smartwatch Control of Environment
+* September 2016
+*
+* Class to control the locks
+*/
+
 public class Lock {
 
 	public void locks(String[] args) throws PhidgetException {
 		// TODO Auto-generated method stub
 
 		final int MOTOR_PORT=0;
-		AdvancedServoPhidget servo; 
+		AdvancedServoPhidget servo;
 		System.out.println(Phidget.getLibraryVersion());
 
 		servo = new AdvancedServoPhidget();
 		attachListener(servo);
-		
+
 		servo.addServoPositionChangeListener(new ServoPositionChangeListener()
 		{
 			public void servoPositionChanged(ServoPositionChangeEvent oe)
 			{
-				// 
-				// System.out.println(oe);
 			}
 		});
-		
-		
 
 		servo.openAny();
 		System.out.println("Waiting for AdvancedServo attachment...");
@@ -45,17 +49,14 @@ public class Lock {
 
 		System.out.println("Serial: " + servo.getSerialNumber());
 		System.out.println("Servos: " + servo.getMotorCount());
-		
+
 		System.out.println("Max speed: " + servo.getAccelerationMax(0));
 
-		 servo.setEngaged(MOTOR_PORT, true);
-		 
-		 servo.setPosition(0, 50);
-		 
+		servo.setEngaged(MOTOR_PORT, true);
+		servo.setPosition(0, 50);
 
-			
-			
 	     }
+
 
 	/**
 	 * A method to lock the lock
@@ -71,9 +72,9 @@ public class Lock {
 			servo.setAcceleration(0, 100000);
 			servo.setVelocityLimit(0, 200);
 			servo.setPosition(0, 200);
-     	  
+
 	}
-	
+
 	/**
 	 * A method to unlock the lock
 	 * @param servo
@@ -81,17 +82,18 @@ public class Lock {
 	 */
 	public void unlock(AdvancedServoPhidget servo) throws PhidgetException{
 		final int MOTOR_PORT=0;
-		servo.setEngaged(0, true);	
+		servo.setEngaged(0, true);
 		servo.setSpeedRampingOn(0, true);
         servo.setAcceleration(0,servo.getAccelerationMin(0));
         servo.setAcceleration(0, 100000);
         servo.setVelocityLimit(0, 200);
   	  	servo.setPosition(0, 100);
-  	
+
 	}
-	
-		
-	
+
+/*
+* Attach listeners and open sero
+*/
 
 	public void attachListener(AdvancedServoPhidget servo) throws PhidgetException{
 		servo.addAttachListener(new AttachListener() {
@@ -112,7 +114,7 @@ public class Lock {
 		servo.openAny();
 		System.out.println("Now waiting for AdvancedServo attachment...");
 		servo.waitForAttachment();
-		
+
 		servo.setPosition(0, 10);
 	}
 
