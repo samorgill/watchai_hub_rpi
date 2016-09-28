@@ -15,42 +15,48 @@ import com.phidgets.event.InputChangeListener;
 import com.phidgets.event.SensorChangeEvent;
 import com.phidgets.event.SensorChangeListener;
 
+/*
+* @author Samuel Orgill 15118305
+* NW5 Smartwatch Control of Environment
+* September 2016
+*
+*/
 
 public class Vibration {
 
 	Music music = new Music();
-	
+
 	/**
 	 * Method to turn on the vibration sensor.
 	 * This tests that there is normal movement on a bed
 	 * Anything < 100 is considered restless and triggers soft music
 	 * @param ifk
 	 * @throws PhidgetException
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
-	
+
 	public void turnOn(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
-		
+
 		attachListener(ifk);
-		
-		
+
+
 		ifk.addInputChangeListener(new InputChangeListener(){
 
 			@Override
 			public void inputChanged(InputChangeEvent arg0) {
-	
+
 			}
-			 
+
 		 });
 			ifk.addSensorChangeListener(new SensorChangeListener(){
 				String msg;
 				@Override
 				public void sensorChanged(SensorChangeEvent arg0){
-					
+
 					int sensVal = arg0.getValue();
-					
+
 					System.out.println("Arg " + arg0.getValue());
-					
+
 					//If the light levels fall below 30, the lights turn on
 					if(sensVal < 100){
 							//play();
@@ -58,15 +64,15 @@ public class Vibration {
 						msg = "Your child is restless";
 						System.out.println(msg);
 						MQTTSend.send(msg);
-						//turnOff(ifk);		
+						//turnOff(ifk);
 						try{
 						ifk.close();
 						}catch(Exception e){
 						}
-						
+
 					}if(sensVal > 100 && sensVal < 500){
 						System.out.println("Everythings just fine");
-												
+
 
 					}else if(sensVal > 500){
 						msg = "Check your child";
@@ -79,31 +85,31 @@ public class Vibration {
 						}
 					}
 				}
-				
+
 			});
 
-		
+
 	}
-	
+
 
 	/**
 	 * Method for turning off the event listener & no longer monitor the light
 	 * @param led
 	 * @throws PhidgetException
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
-	
+
 	public void turnOff(InterfaceKitPhidget ifk) throws PhidgetException{
-		
+
 		SensorChangeListener sn = null;
-		
-	
+
+
 		ifk.removeSensorChangeListener(sn);
 		ifk.close();
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Listener methods to listen for changes in the light variables
 	 * @param ifk
@@ -126,12 +132,12 @@ public class Vibration {
   				System.out.println("error event for " + ee);
   			}
   		});
-  		
+
   		ifk.openAny();
-		ifk.waitForAttachment(); 
-	 	
+		ifk.waitForAttachment();
+
 
   	}
 
-	
+
 }

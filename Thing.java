@@ -1,4 +1,13 @@
 
+/*
+* @author Samuel Orgill 15118305
+* NW5 Smartwatch Control of Environment
+* September 2016
+*
+* Thing model
+*/
+
+
 public class Thing {
 
 	private String thing;
@@ -8,7 +17,8 @@ public class Thing {
 	private String zone;
 	private String room;
 	private String topic;
-	
+
+	//Constructor
 	public Thing(String th, String st, String se, String ty, String zo, String ro, String to){
 		this.thing = th;
 		this.state = st;
@@ -17,7 +27,7 @@ public class Thing {
 		this.zone = zo;
 		this.room = ro;
 		this.topic = to;
-		
+
 	}
 
 	public String getThing() {
@@ -75,10 +85,10 @@ public class Thing {
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-	
+
 	public String toString(){
 		return "Thing: " + thing + " "+ state + " "+ serial + " " + type + " "+ zone + " " + room + " " + topic + " ";
 	}
-	
-	
+
+
 }

@@ -4,12 +4,20 @@ import java.io.IOException;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+/*
+* @author Samuel Orgill 15118305
+* NW5 Smartwatch Control of Environment
+* September 2016
+*
+* Stand alone class for send MQTT message on local network
+*/
+
 public class MQTTSend {
 
-	
+
 	public static void send(String cTemp){
 		 UserUtils uu = new UserUtils();
-		 
+
 		  String username = null;
 		try {
 			username = uu.getUser();
@@ -18,17 +26,23 @@ public class MQTTSend {
 			e.printStackTrace();
 		}
 		  System.out.println("MQTT un: " + username);
-		 	
-		    String topic        = username + "/Temperature"; 
+
+		    String topic        = username + "/Temperature";
 		    String content      = cTemp;
 		    int qos             = 1;
+<<<<<<< HEAD
 		//    String broker       = "tcp://192.168.0.30:1883";
 		String broker       = "tcp://m21.cloudmqtt.com:17781";
 		    //MQTT client id to use for the device. "" will generate a client id automatically
 		    String clientId     = "SendPi";
     MemoryPersistence persistence = new MemoryPersistence();
+=======
+		    String broker       = "tcp://192.168.0.30:1883";
+	    	String clientId     = "SendPi";
+    		MemoryPersistence persistence = new MemoryPersistence();
+>>>>>>> eb0a891582d1a652217ad5912a36477e8bf80735
 
-    try {
+    		try {
         MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(false);
@@ -56,5 +70,5 @@ public class MQTTSend {
         me.printStackTrace();
     }
 }
-	
+
 }
