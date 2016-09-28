@@ -22,8 +22,8 @@ public class MQTTSend {
 		    String topic        = username + "/Temperature"; 
 		    String content      = cTemp;
 		    int qos             = 1;
-		    String broker       = "tcp://192.168.0.30:1883";
-		// String broker       = "tcp://m21.cloudmqtt.com:17781";
+		//    String broker       = "tcp://192.168.0.30:1883";
+		String broker       = "tcp://m21.cloudmqtt.com:17781";
 		    //MQTT client id to use for the device. "" will generate a client id automatically
 		    String clientId     = "SendPi";
     MemoryPersistence persistence = new MemoryPersistence();
@@ -31,7 +31,9 @@ public class MQTTSend {
     try {
         MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
         MqttConnectOptions connOpts = new MqttConnectOptions();
-        connOpts.setCleanSession(true);
+        connOpts.setCleanSession(false);
+  connOpts.setUserName("xcihlzki");
+	           connOpts.setPassword(new char[]{'7', 'w', 'p', 'h', '1', 'k', 'J', 'E', 'R', '7', 'X', 'h'});
         System.out.println("Connecting to broker: "+broker);
         sampleClient.connect(connOpts);
         System.out.println("Connected");
@@ -40,10 +42,10 @@ public class MQTTSend {
         message.setQos(qos);
         sampleClient.publish(topic, message);
         System.out.println("Message published");
-        sampleClient.disconnect();
+        //sampleClient.disconnect();
 
 
-        System.out.println("Disconnected");
+       // System.out.println("Disconnected");
        // System.exit(0);
     } catch(MqttException me) {
         System.out.println("reason "+me.getReasonCode());

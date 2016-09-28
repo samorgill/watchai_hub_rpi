@@ -35,7 +35,6 @@ public class UserUtils {
 		    }
 		}
 		
-		System.out.println("Persisted username " + usr );
 		
 	}
 	
@@ -50,12 +49,11 @@ public class UserUtils {
 			line = in.readLine();
 			
 			while(line != null){
-				System.out.println(line);
+			
 				username = line;
 				user.setUserName(username);
 				line = in.readLine();
 				
-				System.out.println("un = line: " + username);
 			}
 		
 			//System.out.println(line);

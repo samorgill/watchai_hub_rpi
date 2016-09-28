@@ -31,7 +31,7 @@ public class MQTT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		  System.out.println("MQTT un: " + username);
+		  System.out.println("Username: " + username);
 		 	
 		    String topic        = username + "/#"; 
 		    String content      = "Hello there from CloudMQTT";
@@ -125,23 +125,24 @@ public class MQTT {
                     }if(topic.contains(tempMon) && message.contains(on)){
 						tempSensor.getTemp(ifk);       	
                     }if(topic.contains(recipe) && message.contains(sleep)){
-				        music.playSound(sleep);
-						li.soothingLights();
+				music.playSound(sleep);
+						li.soothingLights(ifk);
 						lock.lock(servo);
 	                }if(topic.contains(recipe) && message.contains(wake)){
 						music.playSound("genius");
 						lock.unlock(servo);
+						li.partyLights(ifk);
 					}if(topic.contains(recipe) && message.contains(sooth)){
 						music.playSound("genius");
-	                   	li.soothingLights();
+	                   	li.soothingLights(ifk);
                     }if(topic.contains(recipe) && message.contains(entertain)){
 						music.playSound("rhyme");
-	                   	li.partyLights();
+	                   	li.partyLights(ifk);
                     }if(topic.contains(recipe) && message.contains(emergency)){
 						li.emergencyLight(ifk);  
                     }if(topic.contains(recipe) && message.contains("stop")){
 						music.stopMusic();
-						li.turnOffAll();
+						li.turnOffAll(ifk);
 			      }	
 				            	
 	            	 System.out.println("Topic: " + topic + ", message: " + message);

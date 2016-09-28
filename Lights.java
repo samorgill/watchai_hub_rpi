@@ -100,11 +100,11 @@ public class Lights {
   	 * @throws PhidgetException
   	 * @throws InterruptedException 
   	 */
-  	public void soothingLights() throws PhidgetException, InterruptedException{
-  		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
+  	public void soothingLights(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
+  		
   		attachListener(ifk);
   		
-  		for(int i = 0; i < 30; i++){
+  		for(int i = 0; i < 5; i++){
   	  		turnOnRed(ifk);
   	  		Thread.sleep(1000);
   	  		turnOnGreen(ifk);
@@ -115,6 +115,9 @@ public class Lights {
 	  		turnOnRed(ifk);
 	  		Thread.sleep(2000);
   	  		}
+
+
+  		turnOffAll(ifk);
   		
   	}
   	
@@ -124,11 +127,11 @@ public class Lights {
   	 * @throws InterruptedException
   	 */
   	
-	public void partyLights() throws PhidgetException, InterruptedException{
-  		InterfaceKitPhidget ifk = new InterfaceKitPhidget();
+	public void partyLights(InterfaceKitPhidget ifk) throws PhidgetException, InterruptedException{
+  	
   		attachListener(ifk);
   		turnOffAll(ifk);
-  		for(int i = 0; i < 5; i++){
+  		for(int i = 0; i < 1; i++){
   	  		turnOnRed(ifk);
   	  		turnOnGreen(ifk);
   	  		Thread.sleep(100);
