@@ -23,7 +23,7 @@ import com.phidgets.PhidgetException;
 * A class to start the local MQTT broker and recieve messages that in turn control the sensors/actuators.
 */
 
-public class MQTT {
+public class MQTTLocal {
 
 	 public void startMQTT(String[] args) throws PhidgetException {
 
